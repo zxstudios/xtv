@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Web App Data</title>
+    <script>
+        // Function to handle data received from Telegram
+        function handleTelegramData(data) {
+            const userIdElement = document.getElementById("user-id");
+            const usernameElement = document.getElementById("username");
+
+            // Check if data object exists
+            if (data) {
+                userIdElement.textContent = data.user_id;
+                usernameElement.textContent = data.username;
+            } else {
+                userIdElement.textContent = "Data not received.";
+                usernameElement.textContent = "";
+            }
+        }
+
+        // Check if Telegram Web App data is available
+        window.addEventListener("load", function() {
+            if (window.TelegramWebApp) {
+                // Get data from Telegram Web App
+                TelegramWebApp.ready().then(function() {
+                    TelegramWebApp.initData.then(handleTelegramData);
+                });
+            } else {
+                console.error("Telegram Web App is not supported.");
+            }
+        });
+    </script>
+</head>
+<body>
+    <h1>Data from Telegram Bot</h1>
+    <p>User ID: <span id="user-id"></span></p>
+    <p>Username: <span id="username"></span></p>
+</body>
+</html>
