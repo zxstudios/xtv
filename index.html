@@ -1,41 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Web App Data</title>
-    <script>
-        // Function to handle data received from Telegram
-        function handleTelegramData(data) {
-            const userIdElement = document.getElementById("user-id");
-            const usernameElement = document.getElementById("username");
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Telegram Web App</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script>
+    const webApp = window.Telegram.WebApp;
 
-            // Check if data object exists
-            if (data) {
-                userIdElement.textContent = data.user_id;
-                usernameElement.textContent = data.username;
-            } else {
-                userIdElement.textContent = "Data not received.";
-                usernameElement.textContent = "";
-            }
-        }
+    function processMessage(text, chatId) {
+      // Implement your logic to process the message data (text, chatId)
+      // You can make API calls, send messages back to the bot, etc.
+      alert(`Received message: ${text} from chat: ${chatId}`);
+    }
 
-        // Check if Telegram Web App data is available
-        window.addEventListener("load", function() {
-            if (window.TelegramWebApp) {
-                // Get data from Telegram Web App
-                TelegramWebApp.ready().then(function() {
-                    TelegramWebApp.initData.then(handleTelegramData);
-                });
-            } else {
-                console.error("Telegram Web App is not supported.");
-            }
-        });
-    </script>
+    webApp.ready().then(() => {
+      const initData = webApp.initDataUnsafe;
+      processMessage(initData.text, initData.chat_id);
+    });
+  </script>
 </head>
 <body>
-    <h1>Data from Telegram Bot</h1>
-    <p>User ID: <span id="user-id"></span></p>
-    <p>Username: <span id="username"></span></p>
-</body>
+  </body>
 </html>
